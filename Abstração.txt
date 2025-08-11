@@ -1,0 +1,129 @@
+SGCE
+-----------------------------------------------------------------------------
+Entidade: HUB
+-----------------------------------------------------------------------------
+
+Entidade: Usuário
+Um usuário cadastrado no sistema, com informações para a empresa administrar e para ser relacionado com diferentes ambientes
+
+Atributos:
+
+CPF - PK Varchar - CPF do usuário. Não é permitido mais de 1 usuário com o mesmo CPF. O campo é usado para relacionar o usuário com os ambientes que ele gerencia
+Nome - Varchar - Nome do usuário, por questões de formalidade.
+Idade - Int - Idade do usuário, por questões de censo e formalidade.
+Numero_Ambientes - Int - Número de ambientes gerenciados pelo usuário.
+Celular - Varchar - Celular para contato.
+Email - Varchar - Email para contato.
+Email_Recup - Email de recuperação.
+Telefone_Recup - Telefone de recuperação.
+Senha - Varchar - Senha para acesso na conta.
+
+-----------------------------------------------------------------------------
+Entidade: Ambiente
+Um ambiente (Casa, empresa, predio1, predio2) cadastrado na conta do usuário, terá andares relacionados a ele para uma administração mais organizada.
+
+Atributos:
+
+ID - PK Int - ID do ambiente. Gerado automaticamente.
+Nome - Varchar - Nome do ambiente, para identificação do usuário.
+Usuario - FK Varchar - CPF do usuário que mantém o ambiente.
+Numero_Andares - Int - Número de Andares do ambiente.
+
+-----------------------------------------------------------------------------
+Entidade: Andares
+Um andar de um ambiente. Terá cômodos relacionados a ele para uma administração mais organizada.
+
+Atributos:
+
+Numero - PK Int - Número do andar. Não se repete no mesmo ambiente.
+Nome - Varchar - Nome do andar, para identificação do usuário.
+Ambiente - FK Int - ID do ambiente relacionado.
+Metros_Quad - Float - Metros² do andar.
+Numero_Comodos - Número de cômodos.
+
+-----------------------------------------------------------------------------
+Entidade: Cômodo
+Um cômodo de um andar. Terá dispositivos relacionados a ele para uma administração mais organizada.
+
+Atributos:
+
+ID - PK Int - ID do cômodo. Gerado automaticamente. Não se repete no mesmo andar.
+Nome - Varchar - Nome do cômodo, para identificação do usuário.
+Numero_Dispositivos - Int - Número de dispositivos cadastrados.
+Metros_Quad - Float - Metros² do cômodo.
+ID_Andar - FK Int - ID do andar relacionado.
+
+-----------------------------------------------------------------------------
+Entidade: Dispositivo
+Um dispositivo cadastrado dentro de um cômodo.
+
+Atributos:
+
+ID - PK Int - ID do dispositivo. Gerado automaticamente. Nâo se repete no mesmo cômodo.
+Nome - Varchar - Nome do dispositivo, para identificação do usuário.
+Tipo - FK Varchar - Tipo de dispositivo. Relacionado à tabela Tipo_Dispositivo, para normalização.
+ID_Comodo - FK Int - ID do cômodo relacionado.
+
+-----------------------------------------------------------------------------
+Entidade: Tipo_Dispositivo
+Tipos de dispositivos, para normalização.
+
+Atributos:
+
+ID_Tipo - PK Int - ID do tipo. Gerado automaticamente.
+Nome_Tipo - Varchar - Tipo de dispositivo.
+
+-----------------------------------------------------------------------------
+Entidade: RelatorioConfigurado
+Configuração dos relatórios de um usuário.
+
+Atributos:
+
+ID - PK Int - ID da configuração. Gerado automaticamente.
+Nome - Varchar - Nome da configuração, para identificação do usuário.
+DataHora - Datetime - Data e hora da emissão do relatório (toda segunda, 23h; todo dia 1, 12h)
+Usuario - FK Varchar - CPF do usuário que criou a configuração.
+Periodicidade - FK Int - Período de pesquisa e geração do relatório (mensal, semanal, diário, etc...). Relacionado à tabela Tipo_Periodo, para normalização.
+Tipo_Relatorio - FK Int - Tipo de relatorio gerado. Relacionado à tabela Tipo_Relatorio, para normalização.
+Itens_Incluidos - FK List Int - ID dos itens incluídos no relatório (Ambientes 1 e 2, ou tipos 1, 3 e 4...). Relacionado aos itens existentes no tipo selecionado.
+Campos - FK List Int - ID dos campos de dados que serão exibidos no relatório (Gasto energético, gasto monetário estimado, média diária, etc. Relacionado à tabela Tipo_Campo.
+
+-----------------------------------------------------------------------------
+Entidade: Tipo_Periodo
+Tipos de períodos de geração de relatórios (anual, semestral, trimestral, bimestral, mensal, semanal, diário, horário, personalizado)
+
+Atributos:
+
+ID - PK Int - ID do período. Gerado automaticamente.
+Nome - Varchar - Tipo de período.
+
+-----------------------------------------------------------------------------
+Entidade: Tipo_Relatorio
+Tipo de relatório gerado (Ambientes, andares, cômodos, dispositivos, tipo_dispositivo)
+
+Atributos:
+
+ID - PK Int - ID do tipo de relatório. Gerado automaticamente.
+Nome - Varchar - Nome do tipo de relatório.
+
+-----------------------------------------------------------------------------
+Entidade: Tipo_Campo
+Tipos de campos para serem exibidos no relatório
+
+Atributos:
+
+ID - PK Int - ID do tipo de campo. Gerado automaticamente.
+Nome - Varchar - Nome do campo
+
+-----------------------------------------------------------------------------
+Entidade: RelatorioGerado
+Relatório gerado com base em uma configuração.
+
+Atributos:
+
+ID - PK Int - ID do relatório. Gerado automaticamente.
+Configuracao - FK Int - ID da configuração, relacionado à tabela RelatorioConfigurado.
+dados - ? - Tabela com os dados gerados.
+Data_Inicio - Datetime - Data e hora do início da pesquisa do relatório.
+Data_Fim - Datetime - Data e hora do fim da pesquisa do relatório.
+Data_Gerado - Datetime - Data e hora em que o relatório foi gerado
