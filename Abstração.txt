@@ -1,8 +1,14 @@
-SGCE
------------------------------------------------------------------------------
-Entidade: HUB
+VertNest
 -----------------------------------------------------------------------------
 
+Entidade: HUB
+Um HUB 
+
+ID - PK Int - ID do HUB
+CPF_Usuario - FK Varchar - CPF do usuário portador do HUB
+ID_Ambiente - FK Int - ID do ambiente gerenciado pelo HUB
+
+-----------------------------------------------------------------------------
 Entidade: Usuário
 Um usuário cadastrado no sistema, com informações para a empresa administrar e para ser relacionado com diferentes ambientes
 
@@ -28,6 +34,7 @@ ID - PK Int - ID do ambiente. Gerado automaticamente.
 Nome - Varchar - Nome do ambiente, para identificação do usuário.
 Usuario - FK Varchar - CPF do usuário que mantém o ambiente.
 Numero_Andares - Int - Número de Andares do ambiente.
+Endereco - Varchar - Endereço do ambiente.
 
 -----------------------------------------------------------------------------
 Entidade: Andares
@@ -126,4 +133,5 @@ Configuracao - FK Int - ID da configuração, relacionado à tabela RelatorioCon
 dados - ? - Tabela com os dados gerados.
 Data_Inicio - Datetime - Data e hora do início da pesquisa do relatório.
 Data_Fim - Datetime - Data e hora do fim da pesquisa do relatório.
+
 Data_Gerado - Datetime - Data e hora em que o relatório foi gerado
